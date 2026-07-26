@@ -6,6 +6,9 @@ ROOT = Path(__file__).resolve().parent.parent
 RAW_FILE = ROOT / "data" / "raw" / "railway_data.csv" #change the file name to your raw data file name
 OUTPUT_FILE = ROOT / "data" / "processed" / "railway_data_clean.csv"
 
+# Create processed directory if it doesn't exist
+OUTPUT_FILE.parent.mkdir(parents=True, exist_ok=True)
+
 #loading the dataset
 #read csv file
 print("reading dataset...")
