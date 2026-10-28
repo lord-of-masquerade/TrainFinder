@@ -27,3 +27,12 @@ trains=df[
 ].drop_duplicates()
 
 print(f"Unique trains: {len(trains)}")
+
+# Prepare Station Data
+stations=df[
+    ["station_code","station_name"]
+].drop_duplicates() 
+
+print(f"Unique stations: {len(stations)}")
+
+
