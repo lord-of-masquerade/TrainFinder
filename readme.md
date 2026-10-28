@@ -11,7 +11,7 @@ The project uses real-world Indian Railways data, MySQL for structured data stor
 
 Passengers traveling between two railway stations may face difficulties identifying suitable connecting trains when direct services are unavailable.
 
-TrainFinder aims to simplify journey planning by identifying available routes, minimizing train transfers, and recommending efficient travel paths.
+TrainFinder aims to simplify journey planning by identifying available routes, minimizing train transfers, and recommending efficient travel paths with minimum cost or time.
 
 ## ✨ Planned Features
 
