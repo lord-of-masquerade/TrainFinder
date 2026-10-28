@@ -15,4 +15,8 @@ connection = mysql.connector.connect(
 cursor = connection.cursor()
 print("Successfully connected to TrainFinder database!")
 
-connection.close()
+# Load Clean Dataset
+
+print("\nReading cleaned dataset...")
+df = pd.read_csv(CLEAN_FILE)
+print(f"Rows loaded: {len(df)}")
