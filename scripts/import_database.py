@@ -20,3 +20,10 @@ print("Successfully connected to TrainFinder database!")
 print("\nReading cleaned dataset...")
 df = pd.read_csv(CLEAN_FILE)
 print(f"Rows loaded: {len(df)}")
+
+#prepare the train data for insertion into the database
+trains=df[
+    ["train_no","train_name"]
+].drop_duplicates()
+
+print(f"Unique trains: {len(trains)}")
