@@ -35,4 +35,17 @@ stations=df[
 
 print(f"Unique stations: {len(stations)}")
 
+#Insert Trains
+
+print("\nInserting Trains......")
+
+train_query="""
+insert into trains (train_no, train_name)
+values (%s, %s)
+"""
+train_data=list(
+    trains.itertuples(index=False, name=None)
+)
+cursor.executemany(train_query, train_data)
+print(f"Inserted stations: {cursor.rowcount}")
 
