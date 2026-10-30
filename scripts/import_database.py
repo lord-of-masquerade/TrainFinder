@@ -1,7 +1,9 @@
 from pathlib import path
+
+import pandas as pd
 import mysql.connector
 
-ROOT=Path(__file__).resolve().parent.parent
+ROOT = Path(__file__).resolve().parent.parent
 CLEAN_FILE=ROOT / "data" / "processed" / "railway_data_clean.csv"
 
 
@@ -49,3 +51,17 @@ train_data=list(
 cursor.executemany(train_query, train_data)
 print(f"Inserted stations: {cursor.rowcount}")
 
+#Insert Stations
+
+print("\nInserting Stations......")
+
+station_query="""
+insert into stations (station_code, station_name)
+values (%s, %s)
+"""
+
+station_data=list(
+    stations.itertuples(index=False, name=None)
+)
+cursor.executemany(station_query, station_data)
+print(f"Inserted stations: {cursor.rowcount}")  
