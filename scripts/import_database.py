@@ -83,3 +83,16 @@ stops = df[stop_columns].copy()
 # Convert time values to datetime
 stops["arrival_time"] = pd.to_datetime(stops["arrival_time"], format="%H:%M:%S", errors='coerce').dt.time
 stops["departure_time"] = pd.to_datetime(stops["departure_time"], format="%H:%M:%S", errors='coerce').dt.time
+
+#insert Train Stops
+print("\nInserting Train Stops......")
+stop_query="""
+insert into train_stops (train_no, stop_order,station_code, arrival_time, departure_time, distance)
+values (%s, %s, %s, %s, %s, %s)
+"""
+stop_data=list(
+    stops.itertuples(index=False, name=None)
+)
+cursor.executemany(stop_query, stop_data)
+
+print(f"Inserted train stops: {cursor.rowcount}")
