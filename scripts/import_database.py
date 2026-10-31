@@ -96,3 +96,10 @@ stop_data=list(
 cursor.executemany(stop_query, stop_data)
 
 print(f"Inserted train stops: {cursor.rowcount}")
+
+#commit the changes
+connection.commit()
+
+print("\n==========================")
+print("Data import completed successfully!")
+print("==========================")
