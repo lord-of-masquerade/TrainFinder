@@ -103,3 +103,9 @@ connection.commit()
 print("\n==========================")
 print("Data import completed successfully!")
 print("==========================")
+
+#Close the cursor and connection
+cursor.close()
+connection.close()
+
+print("\n MySQL Database connection closed.")
