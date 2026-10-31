@@ -79,3 +79,7 @@ stop_columns = [
 ]
 
 stops = df[stop_columns].copy()
+
+# Convert time values to datetime
+stops["arrival_time"] = pd.to_datetime(stops["arrival_time"], format="%H:%M:%S", errors='coerce').dt.time
+stops["departure_time"] = pd.to_datetime(stops["departure_time"], format="%H:%M:%S", errors='coerce').dt.time
