@@ -65,3 +65,17 @@ station_data=list(
 )
 cursor.executemany(station_query, station_data)
 print(f"Inserted stations: {cursor.rowcount}")  
+
+# Prepare Train Stops
+print("\nPreparing train stops...")
+
+stop_columns = [
+    "train_no",
+    "stop_order",
+    "station_code",
+    "arrival_time",
+    "departure_time",
+    "distance"
+]
+
+stops = df[stop_columns].copy()
