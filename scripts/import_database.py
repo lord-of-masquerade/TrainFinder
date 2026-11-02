@@ -23,10 +23,22 @@ print("\nReading cleaned dataset...")
 df = pd.read_csv(CLEAN_FILE)
 print(f"Rows loaded: {len(df)}")
 
-#prepare the train data for insertion into the database
-trains=df[
-    ["train_no","train_name"]
-].drop_duplicates()
+# Normalize train names
+df["train_name"] = (
+    df["train_name"]
+    .astype("string")
+    .str.strip()
+    .str.replace(r"\s+", " ", regex=True)
+)
+
+# One unique train number should have one canonical name
+trains = (
+    df[["train_no", "train_name"]]
+    .drop_duplicates()
+    .drop_duplicates(subset=["train_no"], keep="first")
+)
+
+print(f"Unique trains: {len(trains)}")
 
 print(f"Unique trains: {len(trains)}")
 
@@ -93,7 +105,7 @@ values (%s, %s, %s, %s, %s, %s)
 stop_data=list(
     stops.itertuples(index=False, name=None)
 )
-cursor.executemany(stop_query, stop_data)
+#cursor.executemany(stop_query, stop_data)
 
 print(f"Inserted train stops: {cursor.rowcount}")
 
