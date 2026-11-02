@@ -23,6 +23,7 @@ print("\nReading cleaned dataset...")
 df = pd.read_csv(CLEAN_FILE)
 print(f"Rows loaded: {len(df)}")
 
+# Prepare train Data
 # Normalize train names
 df["train_name"] = (
     df["train_name"]
@@ -40,14 +41,38 @@ trains = (
 
 print(f"Unique trains: {len(trains)}")
 
-print(f"Unique trains: {len(trains)}")
 
 # Prepare Station Data
-stations=df[
-    ["station_code","station_name"]
-].drop_duplicates() 
+# Normalize station names
+df["station_name"] = (
+    df["station_name"]
+    .astype("string")
+    .str.strip()
+    .str.replace(r"\s+", " ", regex=True)
+)
 
-print(f"Unique stations: {len(stations)}")
+# Find station codes linked to multiple names
+station_pairs = df[
+    ["station_code", "station_name"]
+].drop_duplicates()
+
+duplicate_stations = station_pairs[
+    station_pairs.duplicated(
+        subset=["station_code"],
+        keep=False
+    )
+].sort_values("station_code")
+
+print("\n====== Conflicting Station Codes ======")
+
+print(duplicate_stations.to_string(index=False))
+
+print(
+    "\nTotal conflicting station codes:",
+    duplicate_stations["station_code"].nunique()
+)
+
+exit()
 
 #Insert Trains
 
