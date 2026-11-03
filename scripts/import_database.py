@@ -158,6 +158,10 @@ stops["departure_time"] = stops["departure_time"].apply(
     lambda x: x if pd.notna(x) else None
 )
 
+#check for duplicates in train stops
+stops = df[stop_columns].copy()
+
+
 
 #insert Train Stops
 print("\nInserting Train Stops......")
