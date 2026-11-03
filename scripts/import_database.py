@@ -99,7 +99,13 @@ train_data=list(
     trains.itertuples(index=False, name=None)
 )
 cursor.executemany(train_query, train_data)
-print(f"Inserted stations: {cursor.rowcount}")
+print(f"Inserted trains: {cursor.rowcount}")
+
+stations = (
+    df[["station_code", "station_name"]]
+    .drop_duplicates()
+    .drop_duplicates(subset=["station_code"], keep="first")
+)
 
 #Insert Stations
 
