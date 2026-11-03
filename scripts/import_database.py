@@ -136,6 +136,19 @@ stop_columns = [
 
 stops = df[stop_columns].copy()
 
+# Check duplicate train-stop primary keys
+duplicates = stops[
+    stops.duplicated(
+        subset=["train_no", "stop_order"],
+        keep=False
+    )
+].sort_values(["train_no", "stop_order"])
+
+print("\n====== Duplicate Train Stops ======")
+print(duplicates.to_string(index=False))
+
+print("Total duplicate rows:", len(duplicates))
+
 # Convert arrival and departure times
 stops["arrival_time"] = pd.to_datetime(
     stops["arrival_time"],
@@ -158,8 +171,6 @@ stops["departure_time"] = stops["departure_time"].apply(
     lambda x: x if pd.notna(x) else None
 )
 
-#check for duplicates in train stops
-stops = df[stop_columns].copy()
 
 
 
