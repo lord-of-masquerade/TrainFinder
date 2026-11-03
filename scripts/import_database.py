@@ -158,6 +158,7 @@ stops["departure_time"] = stops["departure_time"].apply(
     lambda x: x if pd.notna(x) else None
 )
 
+
 #insert Train Stops
 print("\nInserting Train Stops......")
 stop_query="""
