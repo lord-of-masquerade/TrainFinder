@@ -23,6 +23,20 @@ print("\nReading cleaned dataset...")
 df = pd.read_csv(CLEAN_FILE)
 print(f"Rows loaded: {len(df)}")
 
+# Standardize inconsistent station names
+station_name_corrections = {
+    "JVN": "JORAVARNAGAR",
+    "SGRD": "SARAGAON RD HLT"
+}
+
+df["station_name"] = df.apply(
+    lambda row: station_name_corrections.get(
+        row["station_code"],
+        row["station_name"]
+    ),
+    axis=1
+)
+
 # Prepare train Data
 # Normalize train names
 df["train_name"] = (
@@ -72,7 +86,6 @@ print(
     duplicate_stations["station_code"].nunique()
 )
 
-exit()
 
 #Insert Trains
 
