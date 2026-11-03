@@ -136,9 +136,27 @@ stop_columns = [
 
 stops = df[stop_columns].copy()
 
-# Convert time values to datetime
-stops["arrival_time"] = pd.to_datetime(stops["arrival_time"], format="%H:%M:%S", errors='coerce').dt.time
-stops["departure_time"] = pd.to_datetime(stops["departure_time"], format="%H:%M:%S", errors='coerce').dt.time
+# Convert arrival and departure times
+stops["arrival_time"] = pd.to_datetime(
+    stops["arrival_time"],
+    format="%H:%M:%S",
+    errors="coerce"
+).dt.time
+
+stops["departure_time"] = pd.to_datetime(
+    stops["departure_time"],
+    format="%H:%M:%S",
+    errors="coerce"
+).dt.time
+
+# Replace NaT/NaN with Python None (SQL NULL)
+stops["arrival_time"] = stops["arrival_time"].apply(
+    lambda x: x if pd.notna(x) else None
+)
+
+stops["departure_time"] = stops["departure_time"].apply(
+    lambda x: x if pd.notna(x) else None
+)
 
 #insert Train Stops
 print("\nInserting Train Stops......")
@@ -149,7 +167,7 @@ values (%s, %s, %s, %s, %s, %s)
 stop_data=list(
     stops.itertuples(index=False, name=None)
 )
-#cursor.executemany(stop_query, stop_data)
+cursor.executemany(stop_query, stop_data)
 
 print(f"Inserted train stops: {cursor.rowcount}")
 
