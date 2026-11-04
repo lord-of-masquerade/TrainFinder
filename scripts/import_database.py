@@ -136,28 +136,61 @@ stop_columns = [
 
 stops = df[stop_columns].copy()
 
-# Remove exact duplicate train-stop records
-before = len(stops)
+# Identify different route variants for the same train number
 
-stops = stops.drop_duplicates()
+route_columns = [
+    "train_no",
+    "source_station_code",
+    "destination_station_code"
+]
 
-after = len(stops)
+route_variants = df[route_columns].drop_duplicates()
 
-print(f"Exact duplicate rows removed: {before - after}")
-print(f"Train stops remaining: {after}")
+print("\n====== Route Variants per Train ======")
 
-# Check duplicate train-stop primary keys
-duplicates = stops[
-    stops.duplicated(
-        subset=["train_no", "stop_order"],
+variants_per_train = (
+    route_variants.groupby("train_no")
+    .size()
+    .sort_values(ascending=False)
+)
+
+print(variants_per_train.head(20))
+
+
+# Check duplicate stop orders within each route variant
+
+route_stop_key = [
+    "train_no",
+    "source_station_code",
+    "destination_station_code",
+    "stop_order"
+]
+
+duplicates = df[
+    df.duplicated(
+        subset=route_stop_key,
         keep=False
     )
-].sort_values(["train_no", "stop_order"])
+].sort_values(route_stop_key)
 
-print("\n====== Duplicate Train Stops ======")
-print(duplicates.to_string(index=False))
+print("\n====== Duplicate Stops Within Route ======")
 
-print("Total duplicate rows:", len(duplicates))
+print(duplicates[
+    route_stop_key + [
+        "station_code",
+        "arrival_time",
+        "departure_time",
+        "distance"
+    ]
+].to_string(index=False))
+
+print(
+    "\nTotal conflicting route-stop keys:",
+    duplicates[route_stop_key].drop_duplicates().shape[0]
+)
+
+# Stop execution here. Do not insert yet.
+exit()
 
 # Convert arrival and departure times
 stops["arrival_time"] = pd.to_datetime(
