@@ -6,7 +6,7 @@ import mysql.connector
 ROOT = Path(__file__).resolve().parent.parent
 CLEAN_FILE=ROOT / "data" / "processed" / "railway_data_clean.csv"
 
-
+#  for password, use the one you set for your MySQL server, well hid it in git ignore in that a gitenv
 connection = mysql.connector.connect(
     host="localhost",
     user="root",
