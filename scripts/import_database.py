@@ -136,6 +136,16 @@ stop_columns = [
 
 stops = df[stop_columns].copy()
 
+# Remove exact duplicate train-stop records
+before = len(stops)
+
+stops = stops.drop_duplicates()
+
+after = len(stops)
+
+print(f"Exact duplicate rows removed: {before - after}")
+print(f"Train stops remaining: {after}")
+
 # Check duplicate train-stop primary keys
 duplicates = stops[
     stops.duplicated(
